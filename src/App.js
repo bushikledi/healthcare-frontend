@@ -10,7 +10,6 @@ import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 
-import EventBus from "./common/EventBus";
 import ScheduleList from "./components/schedule.component";
 import NewAppoint from "./components/newappoint.component";
 import Appointments from "./components/appointments.component";
@@ -50,14 +49,6 @@ async componentDidMount() {
     } catch (error) {
       console.error(error);
     }
-
-    EventBus.on("logout", () => {
-      this.logOut();
-    });
-  }
-
-  componentWillUnmount() {
-    EventBus.remove("logout");
   }
 
   logOut() {

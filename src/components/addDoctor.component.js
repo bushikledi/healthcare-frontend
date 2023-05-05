@@ -13,6 +13,15 @@ const required = value => {
     );
   }
 };
+const amountValidation = value => {
+  if (!value || value<0) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Value most be positive and not not blank!
+      </div>
+    );
+  }
+};
 
 export default class AddDoctor extends Component {
   constructor(props) {
@@ -21,6 +30,7 @@ export default class AddDoctor extends Component {
     this.onChangeDoctorName = this.onChangeDoctorName.bind(this);
     this.onChangeDoctorSpeciality = this.onChangeDoctorSpeciality.bind(this);
     this.onChangeDoctorAbout = this.onChangeDoctorAbout.bind(this);
+    this.onChangeAmount = this.onChangeAmount.bind(this);
 
 
     this.state = {
@@ -28,7 +38,8 @@ export default class AddDoctor extends Component {
       doctorSpeciality: "",
       doctorAbout: "",
       successful: false,
-      message: ""
+      message: "",
+      amount: 0
     };
   }
   
@@ -36,6 +47,11 @@ export default class AddDoctor extends Component {
   onChangeDoctorName(e) {
     this.setState({
         doctorName: e.target.value
+    });
+  }
+  onChangeAmount(e) {
+    this.setState({
+        amount: e.target.value
     });
   }
   onChangeDoctorAbout(e) {
@@ -62,7 +78,8 @@ export default class AddDoctor extends Component {
         api.post("doctor/add", {
             doctorName: this.state.doctorName,
             doctorAbout: this.state.doctorAbout,
-            doctorSpeciality: this.state.doctorSpeciality
+            doctorSpeciality: this.state.doctorSpeciality,
+            amount: this.state.amount
         }).then(
         () => {
           this.props.history.push("/");
@@ -123,6 +140,17 @@ export default class AddDoctor extends Component {
                     value={this.state.doctorAbout}
                     onChange={this.onChangeDoctorAbout}
                     validations={[required]}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="amount">Doctor's Price</label>
+                  <Input
+                    type="number"
+                    className="form-control"
+                    name="amount"
+                    value={this.state.amount}
+                    onChange={this.onChangeAmount}
+                    validations={[amountValidation]}
                   />
                 </div>
                 <div className="form-group">
